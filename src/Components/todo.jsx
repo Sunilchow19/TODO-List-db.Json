@@ -7,6 +7,7 @@ function Todo() {
   let [str, setstr] = useState("");
   let [data, setData] = useState([]);
 
+  //Main AXIOS Get Function
   function main() {
     axios
       .get("http://localhost:3000/posts", {
@@ -19,6 +20,7 @@ function Todo() {
       });
   }
 
+  //Initial rendering to Page
   useEffect(() => {
     main();
   }, []);
@@ -27,6 +29,7 @@ function Todo() {
     setstr(e.target.value);
   };
 
+  //Form Submit button functionality
   let sub = (e) => {
     e.preventDefault();
 
@@ -40,7 +43,6 @@ function Todo() {
       return;
     }
 
-
     let obj = { title: e.target[0].value };
 
     axios
@@ -49,9 +51,10 @@ function Todo() {
       })
       .then(() => main());
 
-    setstr(""); 
+    setstr("");
   };
 
+  //Edit button Functionality
   let replace = (val) => {
     console.log(val);
 
@@ -59,7 +62,6 @@ function Todo() {
       title: prompt(`Edit ${val.title}`),
     };
 
-   
     axios
       .patch("http://localhost:3000/posts/" + val.id, obj, {
         headers: {
@@ -72,6 +74,7 @@ function Todo() {
       });
   };
 
+  //Delete button Functionality
   let del = (val) => {
     axios
       .delete("http://localhost:3000/posts/" + val.id, {
@@ -86,6 +89,7 @@ function Todo() {
       });
   };
 
+  //Result to display 
   let res = data.map((val, ind) => {
     return (
       <div key={ind}>

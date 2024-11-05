@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 
 import "./todo.css";
 
-
 function Todo() {
   let [str, setstr] = useState("");
   let [data, setData] = useState([]);
@@ -32,28 +31,26 @@ function Todo() {
     e.preventDefault();
 
     if (!str) {
-        alert("Input cannot be empty!");
-        return;
+      alert("Input cannot be empty!");
+      return;
     }
 
-    // Check if the title already exists in the list
-    if (data.find(item => item.title === str)) {
-        alert("This item already exists!");
-        return;
+    if (data.find((item) => item.title === str)) {
+      alert("This item already exists!");
+      return;
     }
 
-    // Create a new todo item
+
     let obj = { title: e.target[0].value };
 
-    // Add the item to the server and refresh the list
-    axios.post("http://localhost:3000/posts", obj, {
-        headers: { "Content-Type": "application/json" }
-    })
-    .then(() => main());
+    axios
+      .post("http://localhost:3000/posts", obj, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then(() => main());
 
-    setstr(""); // Clear the input field
-};
-
+    setstr(""); 
+  };
 
   let replace = (val) => {
     console.log(val);
@@ -62,8 +59,7 @@ function Todo() {
       title: prompt(`Edit ${val.title}`),
     };
 
-    // title=prompt(`Edit ${val.title}`)
-
+   
     axios
       .patch("http://localhost:3000/posts/" + val.id, obj, {
         headers: {
